@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "Eiffelturm",
+    "lat": 48.8584,
+    "lng": 2.2945,
+    "image": "assets/eiffel.jpg",
+    "difficulty": "easy"
+  },
+  {
+    "id": 2,
+    "name": "Brandenburger Tor",
+    "lat": 52.5163,
+    "lng": 13.3777,
+    "image": "assets/brandenburg.jpg",
+    "difficulty": "easy"
+  }
+]
