@@ -50,3 +50,35 @@ function evaluateGuess(guessLat, guessLng) {
     resultEl.textContent = `Schlecht (${distance.toFixed(1)} km entfernt)`;
   }
 }
+
+let currentLocation;
+
+fetch("data/locations.json")
+  .then(response => response.json())
+  .then(data => {
+    // zufällige Location auswählen
+    currentLocation = data[Math.floor(Math.random() * data.length)];
+
+    // Bild setzen
+    document.getElementById("locationImage").src = currentLocation.image;
+  });
+
+  function evaluateGuess(guessLat, guessLng) {
+  if (!currentLocation) return;
+
+  const distance = getDistanceKm(
+    guessLat,
+    guessLng,
+    currentLocation.lat,
+    currentLocation.lng
+  );
+
+  const resultEl = document.getElementById("result");
+  const THRESHOLD = 50;
+
+  if (distance < THRESHOLD) {
+    resultEl.textContent = `Gut! (${distance.toFixed(1)} km entfernt)`;
+  } else {
+    resultEl.textContent = `Schlecht (${distance.toFixed(1)} km entfernt)`;
+  }
+}
