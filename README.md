@@ -12,10 +12,10 @@ tatsächlicher Position wird das Ergebnis bewertet.
 - Teamarbeit mit Git (Branches, Reviews, Struktur)
 
 ## Team
-- Teammitglied 1 (Blerjon & Timo)
-- Teammitglied 2 (Timo & Blerjon)
-- Teammitglied 3  (Nick & Liam)
-- Teammitglied 4 (Liam & Nick)
+- Woche 1 Team (Blerjon & Timo)
+- Woche 2 Team (Timo & Blerjon)
+- Woche 3 Team  (Nick & Liam)
+- Woche 4 Team (Liam & Nick)
 
 ## Verwendete Technologien
 - Frontend: HTML, CSS, JavaScript
