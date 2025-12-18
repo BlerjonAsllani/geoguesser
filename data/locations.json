@@ -14,5 +14,149 @@
     "lng": 13.3777,
     "image": "assets/brandenburg.jpg",
     "difficulty": "easy"
+  },
+  {
+    "id": 3,
+    "name": "Kolosseum Rom",
+    "lat": 41.8902,
+    "lng": 12.4922,
+    "image": "assets/kolosseum.jpg",
+    "difficulty": "easy"
+  },
+  {
+    "id": 4,
+    "name": "Big Ben London",
+    "lat": 51.5007,
+    "lng": -0.1246,
+    "image": "assets/bigben.jpg",
+    "difficulty": "easy"
+  },
+  {
+    "id": 5,
+    "name": "Freiheitsstatue New York",
+    "lat": 40.6892,
+    "lng": -74.0445,
+    "image": "assets/freiheitsstatue.jpg",
+    "difficulty": "easy"
+  },
+  {
+    "id": 6,
+    "name": "Taj Mahal Indien",
+    "lat": 27.1751,
+    "lng": 78.0421,
+    "image": "assets/tajmahal.jpg",
+    "difficulty": "easy"
+  },
+  {
+    "id": 7,
+    "name": "Chinesische Mauer",
+    "lat": 40.4319,
+    "lng": 116.5704,
+    "image": "assets/chinesischemauer.jpg",
+    "difficulty": "medium"
+  },
+  {
+    "id": 8,
+    "name": "Pyramiden von Gizeh",
+    "lat": 29.9792,
+    "lng": 31.1342,
+    "image": "assets/pyramiden.jpg",
+    "difficulty": "easy"
+  },
+  {
+    "id": 9,
+    "name": "Machu Picchu Peru",
+    "lat": -13.1631,
+    "lng": -72.5450,
+    "image": "assets/machupicchu.jpg",
+    "difficulty": "medium"
+  },
+  {
+    "id": 10,
+    "name": "Sagrada Familia Barcelona",
+    "lat": 41.4036,
+    "lng": 2.1744,
+    "image": "assets/sagradafamilia.jpg",
+    "difficulty": "medium"
+  },
+  {
+    "id": 11,
+    "name": "Schiefer Turm von Pisa",
+    "lat": 43.7230,
+    "lng": 10.3966,
+    "image": "assets/pisa.jpg",
+    "difficulty": "easy"
+  },
+  {
+    "id": 12,
+    "name": "Sydney Opera House",
+    "lat": -33.8568,
+    "lng": 151.2153,
+    "image": "assets/sydney.jpg",
+    "difficulty": "easy"
+  },
+  {
+    "id": 13,
+    "name": "Petra Jordanien",
+    "lat": 30.3285,
+    "lng": 35.4444,
+    "image": "assets/petra.jpg",
+    "difficulty": "hard"
+  },
+  {
+    "id": 14,
+    "name": "Akropolis Athen",
+    "lat": 37.9715,
+    "lng": 23.7267,
+    "image": "assets/akropolis.jpg",
+    "difficulty": "medium"
+  },
+  {
+    "id": 15,
+    "name": "Neuschwanstein Schloss",
+    "lat": 47.5576,
+    "lng": 10.7498,
+    "image": "assets/neuschwanstein.jpg",
+    "difficulty": "medium"
+  },
+  {
+    "id": 16,
+    "name": "Mount Rushmore USA",
+    "lat": 43.8791,
+    "lng": -103.4591,
+    "image": "assets/rushmore.jpg",
+    "difficulty": "medium"
+  },
+  {
+    "id": 17,
+    "name": "Cristo Redentor Rio",
+    "lat": -22.9519,
+    "lng": -43.2105,
+    "image": "assets/cristo.jpg",
+    "difficulty": "medium"
+  },
+  {
+    "id": 18,
+    "name": "Stonehenge England",
+    "lat": 51.1789,
+    "lng": -1.8262,
+    "image": "assets/stonehenge.jpg",
+    "difficulty": "medium"
+  },
+  {
+    "id": 19,
+    "name": "Matterhorn Schweiz",
+    "lat": 45.9763,
+    "lng": 7.6586,
+    "image": "assets/matterhorn.jpg",
+    "difficulty": "medium"
+  },
+  {
+    "id": 20,
+    "name": "Golden Gate Bridge",
+    "lat": 37.8199,
+    "lng": -122.4783,
+    "image": "assets/goldengate.jpg",
+    "difficulty": "easy"
   }
 ]

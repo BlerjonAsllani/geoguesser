@@ -1,0 +1,132 @@
+/* Allgemeine Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ea667c 0%, #d03136 100%);
+  color: #333;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Startseite */
+h1 {
+  text-align: center;
+  color: white;
+  font-size: 3em;
+  margin-top: 100px;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body > p {
+  text-align: center;
+  color: white;
+  font-size: 1.3em;
+  margin-bottom: 40px;
+}
+
+button {
+  display: block;
+  margin: 0 auto;
+  padding: 15px 40px;
+  font-size: 1.2em;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Spielseite */
+h2 {
+  text-align: center;
+  color: white;
+  margin-bottom: 20px;
+  font-size: 2em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#locationImage {
+  display: block;
+  margin: 0 auto 20px;
+  border: 3px solid white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  max-width: 100%;
+  height: auto;
+}
+
+#map {
+  width: 90%;
+  max-width: 800px;
+  height: 400px;
+  margin: 0 auto 20px;
+  border: 3px solid white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#result {
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: white;
+  margin-top: 20px;
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2em;
+    margin-top: 50px;
+  }
+
+  h2 {
+    font-size: 1.5em;
+  }
+
+  body > p {
+    font-size: 1.1em;
+  }
+
+  button {
+    padding: 12px 30px;
+    font-size: 1em;
+  }
+
+  #locationImage {
+    width: 100%;
+  }
+
+  #map {
+    width: 100%;
+    height: 300px;
+  }
+
+  #result {
+    font-size: 1.2em;
+  }
+}
