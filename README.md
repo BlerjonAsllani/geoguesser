@@ -12,10 +12,10 @@ tatsächlicher Position wird das Ergebnis bewertet.
 - Teamarbeit mit Git (Branches, Reviews, Struktur)
 
 ## Team
-- Teammitglied 1
-- Teammitglied 2
-- Teammitglied 3  
-*(Namen bei Bedarf ergänzen)*
+- Teammitglied 1 (Blerjon & Timo)
+- Teammitglied 2 (Timo & Blerjon)
+- Teammitglied 3  (Nick & Liam)
+- Teammitglied 4 (Liam & Nick)
 
 ## Verwendete Technologien
 - Frontend: HTML, CSS, JavaScript
