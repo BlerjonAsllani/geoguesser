@@ -12,10 +12,10 @@ tatsächlicher Position wird das Ergebnis bewertet.
 - Teamarbeit mit Git (Branches, Reviews, Struktur)
 
 ## Team
-- Woche 1 Team (Blerjon & Timo)
-- Woche 2 Team (Timo & Blerjon)
-- Woche 3 Team  (Nick & Liam)
-- Woche 4 Team (Liam & Nick)
+- Teammitglied 1
+- Teammitglied 2
+- Teammitglied 3  
+*(Namen bei Bedarf ergänzen)*
 
 ## Verwendete Technologien
 - Frontend: HTML, CSS, JavaScript
@@ -24,3 +24,88 @@ tatsächlicher Position wird das Ergebnis bewertet.
 - Versionsverwaltung: Git + GitHub
 
 ## Projektstruktur (Kurzüberblick)
+
+.
+├── assets
+│   ├── akropolis.jpg
+│   ├── bigben.jpg
+│   ├── brandenburg.jpg
+│   ├── chinesischemauer.jpg
+│   ├── cristo.jpg
+│   ├── eiffel.jpg
+│   ├── freiheitsstatue.jpg
+│   ├── goldengate.jpg
+│   ├── kolosseum.jpg
+│   ├── machupicchu.jpg
+│   ├── matterhorn.jpg
+│   ├── neuschwanstein.jpg
+│   ├── petra.jpg
+│   ├── pisa.jpg
+│   ├── pyramiden.jpg
+│   ├── rushmore.jpg
+│   ├── sagradafamilia.jpg
+│   ├── stonehenge.jpg
+│   ├── sydney.jpg
+│   └── tajmahal.jpg
+├── css
+│   └── style.css
+├── data
+│   └── locations.json
+├── js
+│   └── game.js
+├── game.html
+├── index.html
+└── readme
+
+## Projektorganisation & Team-Regeln
+
+### Definition of Done (DoD)
+Ein Work Item gilt als **Done**, wenn alle folgenden Punkte erfüllt sind:
+
+- Code ist im Repository committed und gepusht
+- Funktion wurde manuell getestet
+- Keine offensichtlichen Bugs oder Fehlermeldungen
+- Code hält sich an die definierten Coding-Guidelines
+- Aufgabe erfüllt die Anforderungen des Tickets
+
+### Team-Regeln / Arbeitsweise
+- Entwicklung erfolgt über Feature-Branches
+- Branch-Namen nach dem Schema: `feature/<beschreibung>` oder `bugfix/<beschreibung>`
+- Änderungen werden vor dem Merge überprüft (Code-Review)
+- Merge in den Hauptbranch erst nach erfolgreichem Test
+
+---
+
+## Technologie & Grundprojekt
+
+### Verwendete Technologien
+- **HTML5** – Struktur der Anwendung
+- **CSS3** – Styling
+- **JavaScript (Vanilla JS)** – Spiellogik
+- **JSON** – Datenhaltung (Locations)
+
+### Grundprojekt
+- Initiales Projekt-Setup mit klarer Ordnerstruktur
+- Trennung von Assets, Styles, Logik und Daten
+- Lokales Ausführen ohne zusätzliche Frameworks möglich
+
+---
+
+## Projektstruktur & Coding-Guidelines
+
+### Ordnerstruktur
+- `assets/` – Bilder und Medien
+- `css/` – Stylesheets
+- `js/` – JavaScript-Dateien
+- `data/` – JSON-Daten
+- HTML-Dateien im Root-Verzeichnis
+
+### Namenskonventionen
+- Dateinamen: kleinbuchstaben, keine Leerzeichen
+- JavaScript: `camelCase` für Variablen und Funktionen
+- CSS: sprechende Klassennamen
+
+### Branch-Strategie
+- `main` / `master`: stabiler Stand
+- `feature/*`: neue Funktionen
+- `bugfix/*`: Fehlerbehebungen
