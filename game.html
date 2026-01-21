@@ -1,29 +1,377 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GeoGuesser – Spiel</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeoGuesser 3D</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; overflow: hidden; background: #1a1a2e; }
+    
+    #streetView {
+      position: absolute;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      height: calc(100vh - 120px);
+      background: #333;
+    }
+    
+    #map {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 400px;
+      height: 300px;
+      border: 4px solid white;
+      border-radius: 10px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+      z-index: 9999;
+      background: white;
+      cursor: crosshair;
+    }
+    
+    .header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10000;
+      color: white;
+    }
+    
+    .controls {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      padding: 15px;
+      text-align: center;
+      z-index: 10000;
+    }
+    
+    button {
+      padding: 15px 40px;
+      font-size: 1.2em;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    
+    button:disabled {
+      background: #777;
+      cursor: not-allowed;
+    }
+    
+    #result {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.95);
+      color: white;
+      padding: 30px;
+      border-radius: 15px;
+      min-width: 400px;
+      text-align: center;
+      z-index: 10001;
+      display: none;
+    }
+    
+    #result.show { display: block; }
+    
+    #finalScore {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 20000;
+    }
+    
+    #finalScore.show { display: flex; }
+    
+    .final-content {
+      background: #667eea;
+      padding: 50px;
+      border-radius: 20px;
+      color: white;
+      text-align: center;
+      max-width: 600px;
+    }
+  </style>
 </head>
 <body>
 
-<h2>Wo ist dieser Ort?</h2>
+<div class="header">
+  <h2>🌍 GeoGuesser 3D</h2>
+  <div>
+    <span>Runde: <strong id="roundNum">1/5</strong></span> | 
+    <span>Punkte: <strong id="score">0</strong></span>
+  </div>
+</div>
 
-<img
-  id="locationImage"
-  src=""
-  alt="Location"
-  width="400"
-/>
-
+<div id="streetView"></div>
 <div id="map"></div>
 
-<p id="result"></p>
+<div class="controls">
+  <button id="guessBtn" disabled>Auswahl bestätigen</button>
+</div>
+
+<div id="result"></div>
+
+<div id="finalScore">
+  <div class="final-content">
+    <h1>🎉 Spiel beendet!</h1>
+    <h2>Gesamtpunktzahl: <span id="finalScore">0</span></h2>
+    <div id="rounds"></div>
+    <br><br>
+    <button onclick="location.reload()">Neues Spiel</button>
+    <button onclick="location.href='index.html'">Zurück</button>
+  </div>
+</div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="js/game.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoIjt0ZzxQCWqIChx1djENRZGMrz3y_48"></script>
+
+<script>
+// EXAKT WIE TEST-DEBUG.HTML!
+
+let panorama;
+let map;
+let currentMarker;
+let actualMarker;
+let currentLocation;
+let guessedLocation;
+let allLocations = [];
+let usedLocations = [];
+let currentRound = 1;
+let totalScore = 0;
+let roundScores = [];
+
+// Leaflet Map
+try {
+  map = L.map("map").setView([20, 0], 2);
+  
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap"
+  }).addTo(map);
+  
+  setTimeout(() => {
+    map.invalidateSize();
+  }, 100);
+  
+  console.log("✅ Karte geladen");
+} catch (error) {
+  console.error("❌ Karte Fehler:", error);
+}
+
+// Karte klickbar
+map.on("click", function(e) {
+  console.log("📍 Klick:", e.latlng);
+  
+  if (currentMarker) {
+    map.removeLayer(currentMarker);
+  }
+  
+  currentMarker = L.marker(e.latlng).addTo(map);
+  guessedLocation = e.latlng;
+  document.getElementById('guessBtn').disabled = false;
+});
+
+// Button Handler
+document.getElementById('guessBtn').addEventListener('click', function() {
+  if (!guessedLocation || !currentLocation) return;
+  evaluateGuess();
+});
+
+// Google Maps laden (EXAKT WIE TEST!)
+setTimeout(function() {
+  if (typeof google !== 'undefined' && google.maps) {
+    console.log("✅ Google Maps geladen");
+    
+    try {
+      panorama = new google.maps.StreetViewPanorama(
+        document.getElementById('streetView'),
+        {
+          position: { lat: 48.8584, lng: 2.2945 },
+          pov: { heading: 165, pitch: 0 },
+          zoom: 1,
+          linksControl: true,
+          panControl: true,
+          zoomControl: true,
+          clickToGo: true,
+          scrollwheel: true,
+          addressControl: false,
+          fullscreenControl: true
+        }
+      );
+      
+      console.log("✅ Street View initialisiert");
+      
+      // Locations laden
+      loadLocations();
+      
+    } catch (error) {
+      console.error("❌ Street View Fehler:", error);
+      alert("Street View Fehler: " + error.message);
+    }
+    
+  } else {
+    console.error("❌ Google Maps nicht geladen!");
+    alert("Google Maps fehlt!");
+  }
+}, 1000);
+
+function loadLocations() {
+  fetch("data/locations.json")
+    .then(r => r.json())
+    .then(data => {
+      console.log("✅ Locations geladen:", data.length);
+      allLocations = data;
+      loadNextLocation();
+    })
+    .catch(err => {
+      console.error("❌ Locations Fehler:", err);
+      alert("Fehler beim Laden: " + err.message);
+    });
+}
+
+function loadNextLocation() {
+  if (usedLocations.length === allLocations.length) {
+    usedLocations = [];
+  }
+  
+  const available = allLocations.filter(l => !usedLocations.includes(l.id));
+  currentLocation = available[Math.floor(Math.random() * available.length)];
+  usedLocations.push(currentLocation.id);
+  
+  console.log("📍 Neuer Ort:", currentLocation.name);
+  
+  // Street View Position
+  panorama.setPosition({
+    lat: currentLocation.lat,
+    lng: currentLocation.lng
+  });
+  
+  panorama.setPov({
+    heading: Math.random() * 360,
+    pitch: 0
+  });
+  
+  // Reset
+  if (currentMarker) map.removeLayer(currentMarker);
+  if (actualMarker) map.removeLayer(actualMarker);
+  map.eachLayer(l => { if (l instanceof L.Polyline) map.removeLayer(l); });
+  
+  map.setView([20, 0], 2);
+  setTimeout(() => map.invalidateSize(), 100);
+  
+  guessedLocation = null;
+  document.getElementById('guessBtn').disabled = true;
+  document.getElementById('result').classList.remove('show');
+  document.getElementById('roundNum').textContent = currentRound + '/5';
+}
+
+function evaluateGuess() {
+  const distance = getDistance(
+    guessedLocation.lat,
+    guessedLocation.lng,
+    currentLocation.lat,
+    currentLocation.lng
+  );
+  
+  const score = Math.round(5000 * Math.exp(-3 * distance / 20000));
+  totalScore += score;
+  
+  roundScores.push({
+    round: currentRound,
+    location: currentLocation.name,
+    distance: distance,
+    score: score
+  });
+  
+  // Tatsächlichen Ort zeigen
+  actualMarker = L.marker([currentLocation.lat, currentLocation.lng], {
+    icon: L.icon({
+      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41]
+    })
+  }).addTo(map);
+  
+  L.polyline([
+    [guessedLocation.lat, guessedLocation.lng],
+    [currentLocation.lat, currentLocation.lng]
+  ], { color: 'yellow', weight: 3, dashArray: '10, 10' }).addTo(map);
+  
+  map.fitBounds([
+    [guessedLocation.lat, guessedLocation.lng],
+    [currentLocation.lat, currentLocation.lng]
+  ], { padding: [50, 50] });
+  
+  // Ergebnis anzeigen
+  let rating = distance < 50 ? "🎯 Perfekt!" : 
+               distance < 250 ? "🌟 Ausgezeichnet!" :
+               distance < 750 ? "👍 Gut!" :
+               distance < 2000 ? "👌 Okay" : "😅 Weit daneben";
+  
+  document.getElementById('result').innerHTML = `
+    <h2>${rating}</h2>
+    <p>Ort: <strong>${currentLocation.name}</strong></p>
+    <p>Entfernung: <strong>${distance.toFixed(1)} km</strong></p>
+    <p>Punkte: <strong>+${score}</strong></p>
+    <button onclick="nextRound()">${currentRound < 5 ? 'Weiter' : 'Ergebnis'}</button>
+  `;
+  document.getElementById('result').classList.add('show');
+  document.getElementById('score').textContent = totalScore;
+  document.getElementById('guessBtn').disabled = true;
+}
+
+function nextRound() {
+  if (currentRound >= 5) {
+    showFinal();
+    return;
+  }
+  currentRound++;
+  loadNextLocation();
+}
+
+function showFinal() {
+  document.getElementById('finalScore').querySelector('span').textContent = totalScore;
+  
+  let html = '<div style="margin: 20px 0;">';
+  roundScores.forEach(r => {
+    html += `<p>Runde ${r.round}: ${r.location} - ${r.distance.toFixed(1)}km - ${r.score} Punkte</p>`;
+  });
+  html += '</div>';
+  
+  document.getElementById('rounds').innerHTML = html;
+  document.getElementById('finalScore').classList.add('show');
+}
+
+function getDistance(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
+}
+</script>
 
 </body>
 </html>
